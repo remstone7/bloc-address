@@ -23,13 +23,10 @@ class AddressBook
 
   #  assign 5
   def remove_entry(name, phone, email)
-    index = 0
-    entries.each do |entry|
-      if name == entry.name
-        break
+    entries.each_with_index do |value, index|
+      if name == value.name
+          entries.delete_at(index)
       end
-      index += 1
     end
-    entries.delete_at(index)
   end
 end
