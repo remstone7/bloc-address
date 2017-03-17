@@ -20,4 +20,16 @@ class AddressBook
     #  insert a new entry to entries using the index
      entries.insert(index, Entry.new(name, phone_number, email))
    end
+
+  #  assign 5
+  def remove_entry(name, phone, email)
+    index = 0
+    entries.each do |entry|
+      if name == entry.name
+        break
+      end
+      index += 1
+    end
+    entries.delete_at(index)
+  end
 end
