@@ -15,6 +15,7 @@ class MenuController
     puts "3 - Search for an entry"
     puts "4 - Import entries from a csv"
     puts "5 - Exit"
+    puts "6 - View Entry Number n"
     print "Enter your selection: "
     # retrieve user input w/ gets
     selection = gets.to_i
@@ -40,6 +41,10 @@ class MenuController
         puts "Good-bye!"
         # terminate program
         exit(0)
+      when 6
+        system "clear"
+        number_entry
+        main_menu
       else
         # catch invalid input
         system "clear"
@@ -48,9 +53,22 @@ class MenuController
     end
   end
 
+    def number_entry
+      print "Which entry number would you like to view? "
+      number = gets.chomp.to_i
+      system "clear"
+      if number <= @address_book.entries.count
+        puts "#{@address_book.entries[number]} "
+        main_menu
+      else
+        puts "That is not a valid response, type Exit to exit or search again "
+        number_entry
+      end
+    end
+
     def view_all_entries
       # iterate through all entries
-      address_book.entries.each do |entry|
+      @address_book.entries.each do |entry|
        system "clear"
        puts entry.to_s
      # display a submenu
@@ -71,7 +89,7 @@ class MenuController
       print "Email: "
       email = gets.chomp
       # create from address book
-      address_book.add_entry(name, phone, email)
+      @address_book.add_entry(name, phone, email)
 
       system "clear"
       puts "New entry created"
