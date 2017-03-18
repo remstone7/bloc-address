@@ -56,12 +56,15 @@ class MenuController
     def number_entry
       print "Which entry number would you like to view? "
       number = gets.chomp.to_i
-      system "clear"
-      if number <= @address_book.entries.count
-        puts "#{@address_book.entries[number]} "
+
+      if number < @address_book.entries.count
+        puts @address_book.entries[number]
+        puts "Hit enter to return"
+        gets.chomp
+        system "clear"
         main_menu
       else
-        puts "That is not a valid response, type Exit to exit or search again "
+        puts "#{number} a valid response, type Exit to exit or search again "
         number_entry
       end
     end

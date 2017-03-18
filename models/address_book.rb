@@ -10,7 +10,7 @@ class AddressBook
    def add_entry(name, phone_number, email)
     #  store insertion index
      index = 0
-     entries.each do |entry|
+     @entries.each do |entry|
       #  compare name with current entry
        if name < entry.name
          break
@@ -18,6 +18,6 @@ class AddressBook
        index += 1
      end
     #  insert a new entry to entries using the index
-     entries.insert(index, Entry.new(name, phone_number, email))
+     @entries.insert(index, Entry.new(name, phone_number, email))
    end
 end
