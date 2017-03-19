@@ -16,6 +16,7 @@ class MenuController
     puts "4 - Import entries from a csv"
     puts "5 - Exit"
     puts "6 - View Entry Number n"
+    puts "7 - delete everything"
     print "Enter your selection: "
     # retrieve user input w/ gets
     selection = gets.to_i
@@ -45,6 +46,19 @@ class MenuController
         system "clear"
         number_entry
         main_menu
+      when 7
+        system "clear"
+        print "Are you sure you want to delete? "
+        deleteYN = gets.chomp
+        if deleteYN.upcase == "Y"
+            @address_book.nuke
+            print "Deleted everything"
+            main_menu
+        else
+          puts "few, you didn't delete it"
+          main_menu
+        end
+
       else
         # catch invalid input
         system "clear"
@@ -52,6 +66,7 @@ class MenuController
         main_menu
     end
   end
+
 
     def number_entry
       print "Which entry number would you like to view? "
