@@ -66,7 +66,11 @@ class MenuController
         system "clear"
         main_menu
       else
-        puts "#{number} a valid response, type Exit to exit or search again "
+        puts "#{number} is not a valid response, type Exit to exit or search again "
+        exitToMenu = gets.chomp.to_s
+        if exitToMenu.upcase == "EXIT"
+          main_menu
+        end
         number_entry
       end
     end
@@ -100,7 +104,77 @@ class MenuController
       puts "New entry created"
     end
 
+    def delete_entry(entry)
+      address_book.entries.delete(entry)
+      puts "#{entry.name} has been deleted"
+    end
+
+    def edit_entry(entry)
+
+      print "Updated name: "
+      name = gets.chomp
+      print "Updated phone number: "
+      phone_number = gets.chomp
+      print "Updated email: "
+      email = gets.chomp
+      # on entry only if valid attribute was read
+      entry.name = name if !name.empty?
+      entry.phone_number = phone_number if !phone_number.empty?
+      entry.email = email if !email.empty?
+      system "clear"
+
+      puts "Updated entry:"
+      puts entry
+
+    end
+
+
     def search_entries
+      # get what user wants to search for
+      print "Search by name: "
+      name = gets.chomp
+      # search on address_book return nil or match
+      match = address_book.binary_search(name)
+      system "clear"
+      # if it returns the match
+      if match
+        puts match.to_s
+        search_submenu(match)
+      else
+        puts "No match found for #{name}"
+      end
+    end
+
+    def search_submenu(entry)
+      puts "\nd - delete this entry"
+      puts "e - edit this entry"
+      puts "m - return to main menu"
+
+      selection = gets.chomp
+
+      case selection
+        when "d"
+          system "clear"
+          delete_entry(entry)
+          main_menu
+        when "e"
+          edit_entry(entry)
+          system "clear"
+          main_menu
+        when "m"
+          system "clear"
+          main_menu
+        else
+          system "clear"
+          puts "#{selection} is not a valid input"
+          puts entry.to_s
+          search_submenu(entry)
+        end
+
+    end
+
+
+    def read_csv
 
       print "Enter CSV file to import: "
       file_name = gets.chomp
@@ -119,9 +193,6 @@ class MenuController
         puts "#{file_name} is not a valid CSV file, please enter the name of a valid CSV file"
         read_csv
       end
-    end
-
-    def read_csv
 
     end
 
