@@ -15,6 +15,7 @@ class MenuController
     puts "3 - Search for an entry"
     puts "4 - Import entries from a csv"
     puts "5 - Exit"
+    puts "6 - View Entry Number n"
     print "Enter your selection: "
     # retrieve user input w/ gets
     selection = gets.to_i
@@ -40,6 +41,10 @@ class MenuController
         puts "Good-bye!"
         # terminate program
         exit(0)
+      when 6
+        system "clear"
+        number_entry
+        main_menu
       else
         # catch invalid input
         system "clear"
@@ -48,9 +53,27 @@ class MenuController
     end
   end
 
+    def number_entry
+      print "Which entry number would you like to view? "
+      number = gets.chomp.to_i
+      if number < 0
+        puts "#{number} is not a valid response"
+        number_entry
+      elsif number < @address_book.entries.count
+        puts @address_book.entries[number]
+        puts "Hit enter to return"
+        gets.chomp
+        system "clear"
+        main_menu
+      else
+        puts "#{number} a valid response, type Exit to exit or search again "
+        number_entry
+      end
+    end
+
     def view_all_entries
       # iterate through all entries
-      address_book.entries.each do |entry|
+      @address_book.entries.each do |entry|
        system "clear"
        puts entry.to_s
      # display a submenu
@@ -71,7 +94,7 @@ class MenuController
       print "Email: "
       email = gets.chomp
       # create from address book
-      address_book.add_entry(name, phone, email)
+      @address_book.add_entry(name, phone, email)
 
       system "clear"
       puts "New entry created"
@@ -79,6 +102,23 @@ class MenuController
 
     def search_entries
 
+      print "Enter CSV file to import: "
+      file_name = gets.chomp
+
+      if file_name.empty?
+        system "clear"
+        puts "No CSV file read"
+        main_menu
+      end
+
+      begin
+        entry_count = address_book.import_from_csv(file_name).count
+        system "clear"
+        puts "#{entry_count} new entries added from #{file_name}"
+      rescue
+        puts "#{file_name} is not a valid CSV file, please enter the name of a valid CSV file"
+        read_csv
+      end
     end
 
     def read_csv
