@@ -56,10 +56,7 @@ class MenuController
     def number_entry
       print "Which entry number would you like to view? "
       number = gets.chomp.to_i
-      if number < 0
-        puts "#{number} is not a valid response"
-        number_entry
-      elsif number < @address_book.entries.count
+      if number >= 0 && number < @address_book.entries.count
         puts @address_book.entries[number]
         puts "Hit enter to return"
         gets.chomp
